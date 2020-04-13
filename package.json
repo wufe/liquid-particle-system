@@ -1,14 +1,31 @@
 {
-  "name": "particles-liquid-system",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@wufe/liquid-particle-system",
+  "version": "0.0.0",
+  "main": "dist/cjs/index.js",
   "license": "MIT",
+  "types": "index.d.ts",
   "scripts": {
-    "demo": "parcel serve -t browser public/index.html -p 2345 --open"
+    "demo": "parcel serve -t browser public/index.html -p 2345 -d dist-demo --open",
+    "dev": "run-s build:watch",
+    "compile": "webpack",
+    "compile:production": "cross-env NODE_ENV=production webpack",
+    "compile:watch": "webpack --watch",
+    "generate:declaration": "rm -rf types && tsc --declaration --emitDeclarationOnly --outDir ./types || true",
+    "generate:declaration:watch": "rm -rf types && tsc --declaration --emitDeclarationOnly --outDir ./types --watch",
+    "build": "run-s generate:declaration compile",
+    "build:production": "run-s generate:declaration compile:production",
+    "build:watch": "run-p generate:declaration:watch compile:watch"
   },
   "devDependencies": {
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "npm-run-all": "^4.1.5",
     "parcel": "^1.12.4",
-    "typescript": "^3.8.3"
+    "raw-loader": "^4.0.0",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "@wufe/particles": "^1.0.0"
