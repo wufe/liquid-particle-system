@@ -187,8 +187,8 @@ export class LiquidParticleSystem extends BaseParticleSystem implements IParticl
             .fill(null)
             .map(_ => {
                 const particle = new Particle(new Vector3D({ x: 0, y: 0, z: 0 }), this.manager);
-                particle.setSize({ min: 50, max: 100 });
-                particle.color.w = Math.random() / 5 + .1;
+                particle.setSize({ min: 30, max: 60 });
+                particle.color.w = Math.random() / 5 + .05;
                 this._setupParticlePositionTransition(particle,
                     {
                         randomize: true,

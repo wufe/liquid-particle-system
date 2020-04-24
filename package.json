@@ -5,7 +5,7 @@
   "license": "MIT",
   "types": "index.d.ts",
   "scripts": {
-    "demo": "parcel serve -t browser public/index.html -p 2345 -d dist-demo --open",
+    "demo": "parcel serve -t browser public/index.html -p 2345 -d dist-demo --no-cache --open",
     "dev": "run-s build:watch",
     "compile": "webpack",
     "compile:production": "cross-env NODE_ENV=production webpack",
@@ -28,6 +28,6 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@wufe/particles": "^1.0.0"
+    "@wufe/particles": "^1.1.0"
   }
 }

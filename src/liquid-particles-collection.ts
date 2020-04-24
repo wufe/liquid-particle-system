@@ -65,16 +65,16 @@ export class LiquidParticlesCollection {
         particle
             .useTransition()
             .within(valueFromRandomOptions(parameters.spawnTimePerParticle) * index)
-            .from({
+            .from(new Vector3D({
                 x: valueFromRandomOptions(from.x),
                 y: valueFromRandomOptions(from.y),
                 z: valueFromRandomOptions(from.z),
-            })
-            .to({
+            }))
+            .to(new Vector3D({
                 x: valueFromRandomOptions(to.x),
                 y: valueFromRandomOptions(to.y),
                 z: valueFromRandomOptions(to.z),
-            })
+            }))
             .in(valueFromRandomOptions(parameters.transitionDuration))
             .commit();
     }
