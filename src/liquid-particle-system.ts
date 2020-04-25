@@ -2,8 +2,9 @@
 import { TLiquidParticleSystemSquirt, LiquidParticlesCollection } from './liquid-particles-collection';
 import { RecursivePartial, getDefault, BaseParticleSystem, IParticleSystem, Particle, TRandomizeOptions, randomValueFromBoundary, Vector3D, TransitionEasingFunction, ILibraryInterface } from '@wufe/particles';
 import { LiquidParticleWrapper } from './liquid-particle-wrapper';
+import { TParticleSystemBuilder } from '@wufe/particles/types';
 
-export interface ILiquidParticleSystemParams {
+export interface TLiquidParticleSystemParams {
     particles: {
         environment: {
             count: number;
@@ -15,7 +16,7 @@ export interface ILiquidParticleSystemParams {
     }
 }
 
-const defaultLiquidParticleSystemParams: ILiquidParticleSystemParams = {
+const defaultLiquidParticleSystemParams: TLiquidParticleSystemParams = {
     particles: {
         environment: {
             count: 200
@@ -112,9 +113,11 @@ const defaultLiquidParticleSystemParams: ILiquidParticleSystemParams = {
 
 export class LiquidParticleSystem extends BaseParticleSystem implements IParticleSystem {
 
-    static params: ILiquidParticleSystemParams;
-
     private _particles: LiquidParticleWrapper[] = [];
+
+    constructor(manager: ILibraryInterface, private _params: TLiquidParticleSystemParams) {
+        super(manager);
+    }
 
     attach() {
         const { width, height, depth } = this.manager.configuration;
@@ -122,7 +125,7 @@ export class LiquidParticleSystem extends BaseParticleSystem implements IParticl
         const environmentalParticles = this._buildEnvironmentalParticles();
         const backgroundParticles = this._buildBackgroundParticles();
 
-        const squirts = LiquidParticleSystem.params.particles.squirts.map(config => {
+        const squirts = this._params.particles.squirts.map(config => {
             return new LiquidParticlesCollection(this)
                 .build({ ...config, width, height, depth }, this.manager);
         });
@@ -156,7 +159,7 @@ export class LiquidParticleSystem extends BaseParticleSystem implements IParticl
 
     private _buildEnvironmentalParticles(): LiquidParticleWrapper[] {
         const { height } = this.manager.configuration;
-        return new Array(LiquidParticleSystem.params.particles.environment.count)
+        return new Array(this._params.particles.environment.count)
             .fill(null)
             .map(_ => {
                 const particle = new Particle(new Vector3D({ x: 0, y: 0, z: 0 }), this.manager);
@@ -183,7 +186,7 @@ export class LiquidParticleSystem extends BaseParticleSystem implements IParticl
     private _buildBackgroundParticles(): LiquidParticleWrapper[] {
         const { height } = this.manager.configuration;
 
-        return new Array(LiquidParticleSystem.params.particles.background.count)
+        return new Array(this._params.particles.background.count)
             .fill(null)
             .map(_ => {
                 const particle = new Particle(new Vector3D({ x: 0, y: 0, z: 0 }), this.manager);
@@ -219,9 +222,7 @@ export class LiquidParticleSystem extends BaseParticleSystem implements IParticl
 
 export class LiquidParticleSystemBuilder {
 
-    public static build(partialParams?: RecursivePartial<ILiquidParticleSystemParams>) {
-
-        LiquidParticleSystem.params = getDefault<ILiquidParticleSystemParams>(partialParams, defaultLiquidParticleSystemParams);
-        return LiquidParticleSystem;
-    }
+    static build = (partialParams?: RecursivePartial<TLiquidParticleSystemParams>): TParticleSystemBuilder => ({
+        build: (manager: ILibraryInterface) => new LiquidParticleSystem(manager, getDefault(partialParams, defaultLiquidParticleSystemParams))
+    })
 }

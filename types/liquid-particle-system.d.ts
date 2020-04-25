@@ -1,6 +1,7 @@
 import { TLiquidParticleSystemSquirt } from './liquid-particles-collection';
-import { RecursivePartial, BaseParticleSystem, IParticleSystem, Particle } from '@wufe/particles';
-export interface ILiquidParticleSystemParams {
+import { RecursivePartial, BaseParticleSystem, IParticleSystem, Particle, ILibraryInterface } from '@wufe/particles';
+import { TParticleSystemBuilder } from '@wufe/particles/types';
+export interface TLiquidParticleSystemParams {
     particles: {
         environment: {
             count: number;
@@ -12,8 +13,9 @@ export interface ILiquidParticleSystemParams {
     };
 }
 export declare class LiquidParticleSystem extends BaseParticleSystem implements IParticleSystem {
-    static params: ILiquidParticleSystemParams;
+    private _params;
     private _particles;
+    constructor(manager: ILibraryInterface, _params: TLiquidParticleSystemParams);
     attach(): void;
     private _setupParticlePositionTransition;
     private _buildEnvironmentalParticles;
@@ -22,5 +24,5 @@ export declare class LiquidParticleSystem extends BaseParticleSystem implements 
     tick(delta: number, time: number): void;
 }
 export declare class LiquidParticleSystemBuilder {
-    static build(partialParams?: RecursivePartial<ILiquidParticleSystemParams>): typeof LiquidParticleSystem;
+    static build: (partialParams?: RecursivePartial<TLiquidParticleSystemParams>) => TParticleSystemBuilder;
 }
