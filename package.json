@@ -28,9 +28,9 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "@wufe/particles": "^1.4.0"
+    "@wufe/particles": "^1.4.1"
   },
   "peerDependencies": {
-    "@wufe/particles": "^1.4.0"
+    "@wufe/particles": "^1.4.1"
   }
 }
